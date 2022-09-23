@@ -3,15 +3,13 @@ import React from 'react'
 export default function Result({ rows }) {
 
     function getResult() {
-        //Ordenar
-        //TODO
-
-
         let result = ''
 
         rows.forEach(item => {
-            if (!item.content)
+            if (!item.content) {
+                result += '_ '
                 return
+            }
 
             let subject = item.content.replace(/\s/g, "");
             let index = item.number

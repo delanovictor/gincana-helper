@@ -3,9 +3,9 @@ import Row from './Row';
 import Result from './Result';
 import { v4 as uuidv4 } from 'uuid';
 
-export default function Table({ startRows = [] }) {
+export default function Table({ table }) {
 
-    const [rows, setRows] = useState(startRows)
+    const [rows, setRows] = useState(table.rows)
 
     const addEmptyRow = (e) => {
         setRows(prevRows => {
@@ -14,8 +14,6 @@ export default function Table({ startRows = [] }) {
     }
 
     const updateRow = (updatedRow) => {
-        console.log('updateRow')
-        console.log(updatedRow)
         const newRows = [...rows]
 
         const index = newRows.findIndex(row => row.id === updatedRow.id);
@@ -27,8 +25,6 @@ export default function Table({ startRows = [] }) {
 
     //Save
     useEffect(() => {
-        console.log('save!')
-        console.log(rows)
         localStorage.setItem('teste', JSON.stringify(rows))
     }, [rows])
 
@@ -63,10 +59,13 @@ export default function Table({ startRows = [] }) {
 
     const setNumber = (e) => {
         console.log(e.target.value)
-        const newRows = [...rows].map(item => {
+        let newRows = [...rows]
+
+        newRows = newRows.map(item => {
             return {
                 ...item,
-                number: e.target.value
+                number: e.target.value,
+                id: uuidv4() //TODO: only rerender if i change the id
             }
         })
 
@@ -75,9 +74,18 @@ export default function Table({ startRows = [] }) {
     return (
 
         <div className='bg-gray-800 shadow-md rounded px-8 pt-6 pb-8 mb-4 inline-grid grid-cols-12 w-2/5 m-2 '>
-            <div className='col-span-12 self-center w-full text-center pb-3 text-gray-200 text-xl '>
-                Nome
-            </div>
+            {/* <div className='col-span-12 self-center w-full text-center pb-3 text-gray-200 text-xl '>
+                {table.name}
+            </div> */}
+
+            <input
+                className="col-span-12 self-center w-full text-center pb-3 text-gray-200 text-xl  bg-gray-700 border-gray-900"
+                type="text"
+                name="table-name"
+                placeholder='Nome'
+                defaultValue={table.name}
+            />
+
             < div className='col-span-8' onPaste={handlePaste} >
                 {
                     rows.map((row, index) => {
@@ -116,8 +124,5 @@ export default function Table({ startRows = [] }) {
             </div>
 
         </div >
-
-
-
     )
 }

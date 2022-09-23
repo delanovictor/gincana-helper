@@ -5,26 +5,13 @@ import React from 'react'
 export default function Row({ row, update, isLast, onEnter }) {
 
     function handleChange(e) {
-
-
-        console.log(e.target.name)
         if (e.target.name === 'number') {
             let valid = true
-            console.log(valid)
-
-            console.log(valid)
-
             valid &= e.target.value >= 0
-            console.log(valid)
             if (!valid) {
                 e.target.value = 0
             }
         }
-
-
-
-        console.log('handleChange')
-        console.log(e.target.value)
 
         update({
             ...row,
@@ -52,9 +39,9 @@ export default function Row({ row, update, isLast, onEnter }) {
                     id={`${row.id}-content`}
                     onKeyDown={handleKeyDown} />
 
-
                 {/* <input type="color" onChange={handleChange} defaultValue={row.color} name="color" id={`${row.id}-color`} /> */}
                 <input
+
                     className="shadow appearance-none border rounded col-span-3 py-2 px-3 text-gray-200 bg-gray-700 border-gray-900 leading-tight focus:outline-none focus:shadow-outline"
                     type="number"
                     onChange={handleChange}
